@@ -61,7 +61,7 @@ Principais Dependencias:
 **3 - Configurar banco de dados**
 ```
 Requisitos:
-    Preparar conexão com o banco de dados H2 da apliação.
+    Preparar conexão com o banco de dados H2 da aplicação.
 ```
 
 **4 - Implementar API de usuário (não requer autenticação)**
@@ -138,7 +138,36 @@ Erros possíveis:
 ```
 **6 - Implementar API de carros**
 
-Todas as rotas abaixo esperam o token de acesso da API (JWT) via header Authorization
+| Rota | Descrição | Erros possíveis |
+| ---- | --------- | --------------- |
+| /api/cars      | Listar todos os carros do usuário logado                                                                                                                                                                     | 1,2             |
+| /api/cars      | Cadastrar um novo carro para o usuário logado                                                                                                                                                                | 1,2,3,4,5       |
+| /api/cars/{id} | Buscar um carro do usuário logado pelo id                                                                                                                                                                    | 1,2             |
+| /api/cars/{id} | Remover um carro do usuário logado pelo id                                                                                                                                                                   | 1,2             |
+| /api/cars/{id} | Atualizar um carro do usuário logado pelo id                                                                                                                                                                 | 1,2,3,4,5       |
+
+```
+Requisitos:
+    Todas as rotas devem esoerar o token de acesso da API (JWT) via header Authorization
+    testes unitários;
+
+Erros possíveis:
+    1. Token não enviado: retornar um erro com a mensagem “Unauthorized”;
+    2. Token expirado: retornar um erro com a mensagem “Unauthorized - invalid session”;
+    3. Placa já existente: retornar um erro com a mensagem “License plate already exists”;
+    4. Campos inválidos: retornar um erro com a mensagem “Invalid fields”;
+    5. Campos não preenchidos: retornar um erro com a mensagem “Missing fields”.
+```
+Exemplo de JSON para criação de carro:
+``` json
+{
+    "year": 2018,
+    "licensePlate": "PDV-0625",
+    "model": "Audi",
+    "color": "White"
+}
+```
+
 
 **7 - Documentar Testes, Build e Deploy**
 
