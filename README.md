@@ -75,15 +75,13 @@ Requisitos:
 | /api/users/{id} | Atualizar um usuário pelo id | 2,3,4,5         |
 ```
 Requisitos:
-    Senha do usuário deve ser criptografada;
     testes unitários;
 
 Erros possíveis:
-
-1. E-mail já existente: retornar um erro com a mensagem “Email already exists”;
-2. Login já existente: retornar um erro com a mensagem “Login already exists”;
-3. Campos inválidos: retornar um erro com a mensagem “Invalid fields”;
-4. Campos não preenchidos: retornar um erro com a mensagem “Missing fields”.
+    2. E-mail já existente: retornar um erro com a mensagem “Email already exists”;
+    3. Login já existente: retornar um erro com a mensagem “Login already exists”;
+    4. Campos inválidos: retornar um erro com a mensagem “Invalid fields”;
+    5. Campos não preenchidos: retornar um erro com a mensagem “Missing fields”.
 ```
 Exemplo de JSON para criação de usuário:
 ``` json
@@ -129,7 +127,7 @@ Erros possíveis:
 
 ```
 Requisitos:
-    Todas as rotas devem esoerar o token de acesso da API (JWT) via header Authorization
+    Todas as rotas devem esperar o token de acesso da API (JWT) via header Authorization
     testes unitários;
 
 Erros possíveis:
@@ -148,7 +146,7 @@ Erros possíveis:
 
 ```
 Requisitos:
-    Todas as rotas devem esoerar o token de acesso da API (JWT) via header Authorization
+    Todas as rotas devem esperar o token de acesso da API (JWT) via header Authorization
     testes unitários;
 
 Erros possíveis:
