@@ -5,6 +5,7 @@ import com.company.carsapi.models.transport.request.AuthUser;
 import com.company.carsapi.models.transport.response.SessionDto;
 import com.company.carsapi.services.AuthService;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class AuthController {
 
     @CheckAuthorization
     @DeleteMapping(path = "/signout")
-    public ResponseEntity<SessionDto> logout(@Valid @RequestHeader("Authorization") String token) {
+    public ResponseEntity<SessionDto> logout(@Valid @RequestHeader(required = false, name = HttpHeaders.AUTHORIZATION) String token) {
         this.authService.signOut(token);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

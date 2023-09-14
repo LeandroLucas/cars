@@ -5,6 +5,7 @@ import com.company.carsapi.models.transport.request.EditCar;
 import com.company.carsapi.models.transport.request.EditUser;
 import com.company.carsapi.models.persistence.Car;
 import com.company.carsapi.models.persistence.User;
+import com.company.carsapi.models.transport.response.PrivateUserDto;
 import com.company.carsapi.models.transport.response.UserDto;
 import com.company.carsapi.repositories.UserRepository;
 import com.company.carsapi.utils.CryptUtils;
@@ -104,6 +105,17 @@ public class UserService {
      */
     private UserDto persistenceToDto(User user) {
         UserDto dto = new UserDto();
+        this.applyToDto(dto, user);
+        return dto;
+    }
+
+    public PrivateUserDto persistenceToPrivateDto(User user) {
+        PrivateUserDto dto = new PrivateUserDto();
+        this.applyToDto(dto, user);
+        return dto;
+    }
+
+    private void applyToDto(UserDto dto, User user) {
         dto.setId(user.getId());
         dto.setLogin(user.getLogin());
         dto.setEmail(user.getEmail());
@@ -124,6 +136,5 @@ public class UserService {
                 })
                 .map(this.carService::persistencetoDto)
                 .collect(Collectors.toList()));
-        return dto;
     }
 }

@@ -5,7 +5,9 @@ import com.company.carsapi.exceptions.AuthorizationException;
 import com.company.carsapi.models.persistence.Session;
 import com.company.carsapi.models.persistence.User;
 import com.company.carsapi.models.transport.request.AuthUser;
+import com.company.carsapi.models.transport.response.PrivateUserDto;
 import com.company.carsapi.models.transport.response.SessionDto;
+import com.company.carsapi.models.transport.response.UserDto;
 import com.company.carsapi.repositories.SessionRepository;
 import com.company.carsapi.utils.CryptUtils;
 import io.jsonwebtoken.Jwts;
@@ -62,6 +64,13 @@ public class AuthService {
         this.sessionRepository.save(session);
     }
 
+    public PrivateUserDto getUserBySession(String token) {
+        Session session = this.checkSession(token);
+        PrivateUserDto privateUserDto = this.userService.persistenceToPrivateDto(session.getUser());
+        privateUserDto.setLastLogin(session.getCreatedAt());
+        return privateUserDto;
+    }
+
     /**
      * Converte objeto de persistencia do usuário para o objeto de transporte
      *
@@ -76,6 +85,7 @@ public class AuthService {
 
     /**
      * Gera uma sessão no banco para o usuário informado
+     *
      * @param user Usuário dono da sessão que será gerada
      * @return Sessão criada para o usuário
      */
