@@ -36,20 +36,9 @@ public class AuthService {
     private static final int SESSION_DURATION_MINUTES = 60;
 
     private final SessionRepository sessionRepository;
-    private final UserService userService;
 
-    public AuthService(SessionRepository sessionRepository, UserService userService) {
+    public AuthService(SessionRepository sessionRepository) {
         this.sessionRepository = sessionRepository;
-        this.userService = userService;
-    }
-
-    @Transactional
-    public SessionDto signIn(AuthUser auth) {
-        String encryptedPass = CryptUtils.encryptPassword(auth.getLogin(), auth.getPassword());
-        User user = this.userService.findByCredentials(auth.getLogin(), encryptedPass)
-                .orElseThrow(AuthenticationException::new);
-        Session session = this.buildSession(user);
-        return this.persistenceToDto(session);
     }
 
     public Session checkSession(String token) {
@@ -64,20 +53,13 @@ public class AuthService {
         this.sessionRepository.save(session);
     }
 
-    public PrivateUserDto getUserBySession(String token) {
-        Session session = this.checkSession(token);
-        PrivateUserDto privateUserDto = this.userService.persistenceToPrivateDto(session.getUser());
-        privateUserDto.setLastLogin(session.getCreatedAt());
-        return privateUserDto;
-    }
-
     /**
      * Converte objeto de persistencia do usuário para o objeto de transporte
      *
      * @param session Sessão que será convertida
      * @return SessionDto com as informações da sessão
      */
-    private SessionDto persistenceToDto(Session session) {
+    public SessionDto persistenceToDto(Session session) {
         SessionDto dto = new SessionDto();
         dto.setToken(session.getToken());
         return dto;
@@ -89,7 +71,7 @@ public class AuthService {
      * @param user Usuário dono da sessão que será gerada
      * @return Sessão criada para o usuário
      */
-    private Session buildSession(User user) {
+    public Session buildSession(User user) {
         Session session = new Session();
         session.setUser(user);
         session.setExpireAt(LocalDateTime.now().plusMinutes(SESSION_DURATION_MINUTES));

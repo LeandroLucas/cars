@@ -37,18 +37,15 @@ public class AuthorizationAspect {
         String token = "unknown";
         try {
             token = this.findParameterValue("token", signature.getParameterNames(),
-                    proceedingJoinPoint.getArgs()).orElseThrow();
+                    proceedingJoinPoint.getArgs()).orElseThrow(AuthorizationException::new);
 
             Session validSession = this.authService.checkSession(token);
 
             LOGGER.debug("Session " + validSession.getId() + " authorized");
             return proceedingJoinPoint.proceed();
-        } catch (AuthorizationException e) {
-            LOGGER.debug(token + " unauthorized", e);
-            throw e;
         } catch (Exception e) {
             LOGGER.debug(token + " unauthorized", e);
-            throw new AuthorizationException();
+            throw e;
         }
     }
 

@@ -39,7 +39,7 @@ Sistema para criação de carros e usuários com autenticação.
 
 ## ESTÓRIAS DE USUÁRIO
 
-**1 - Planejar estórias do backend e preparar README.md**
+- [X] **1 - Planejar estórias do backend e preparar README.md**
 
 O README.md do projeto deverá ter uma seção ESTÓRIAS DE USUÁRIO com a lista numerada de estórias de
 usuário que foram concebidas para a implementação do desafio. A primeira linha de cada commit do repositório
@@ -47,7 +47,7 @@ deve utilizar a descrição da estória de usuário associada
 
 ### Backend
 
-**2 - Criar projeto spring boot**
+- [X] **2 - Criar projeto spring boot**
 ```
 Principais Dependencias:
     Maven
@@ -58,21 +58,21 @@ Principais Dependencias:
     spring data
 ```
 
-**3 - Configurar banco de dados**
+- [X] **3 - Configurar banco de dados**
 ```
 Requisitos:
     Preparar conexão com o banco de dados H2 da aplicação.
 ```
 
-**4 - Implementar API de usuário (não requer autenticação)**
+- [X] **4 - Implementar API de usuário (não requer autenticação)**
 
-| Rota            | Descrição                    | Erros possíveis |
-| --------------- | ---------------------------- | --------------- |
-| /api/users      | Listar todos os usuários     |                 |
-| /api/users      | Cadastrar um novo usuário    | 2,3,4,5         |
-| /api/users/{id} | Buscar um usuário pelo id    |                 |
-| /api/users/{id} | Remover um usuário pelo id   |                 |
-| /api/users/{id} | Atualizar um usuário pelo id | 2,3,4,5         |
+| Método HTTP | Rota            | Descrição                    | Erros possíveis |
+| ------ | --------------- | ---------------------------- | --------------- |
+| GET | /api/users      | Listar todos os usuários     |                 |
+| POST | /api/users      | Cadastrar um novo usuário    | 2,3,4,5         |
+| GET | /api/users/{id} | Buscar um usuário pelo id    |                 |
+| DELETE| /api/users/{id} | Remover um usuário pelo id   |                 |
+| PUT | /api/users/{id} | Atualizar um usuário pelo id | 2,3,4,5         |
 ```
 Requisitos:
     testes unitários;
@@ -103,10 +103,11 @@ Exemplo de JSON para criação de usuário:
     ]
 }
 ```
-**5 - Implementar autenticação do usuário**
-| Rota        | Descrição                                                                                                                                       | Erros possíveis |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| /api/signin | Esta rota espera um objeto com os campos login e password, e deve retornar o token de acesso da API (JWT) com as informações do usuário logado. | 1               |
+- [X] **5 - Implementar autenticação do usuário**
+| Método HTTP | Rota         | Descrição                                                                                                                                       | Erros possíveis |
+| ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| POST        | /api/signin  | Esta rota espera um objeto com os campos login e password, e deve retornar o token de acesso da API (JWT) com as informações do usuário logado. | 1               |
+| DELETE      | /api/signout | Deslogar usuário                                                                                                               | 1, 2, 3         |
 ```
 Requisitos:
     jwt token;
@@ -115,15 +116,17 @@ Requisitos:
 
 Erros possíveis:
 
-1. Login inexistente ou senha inválida: retornar um erro com a mensagem “Invalid login or password”;
+    1. Login inexistente ou senha inválida: retornar um erro com a mensagem “Invalid login or password”;
+    2. Token não enviado: retornar um erro com a mensagem “Unauthorized”;
+    3. Token expirado: retornar um erro com a mensagem “Unauthorized - invalid session”;
 
 ```
 
-**5 - Implementar API de dados do usuário autenticado**
+- [X] **5 - Implementar API de dados do usuário autenticado**
 
-| Rota    | Descrição                                                                                                                                                                                                    | Erros possíveis |
-| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
-| /api/me | Retornar as informações do usuário logado (firstName, lastName, email, birthday, login, phone, cars) + createdAt (data da criação do usuário) + lastLogin (data da última vez que o usuário realizou login). | 1,2             |
+| Método HTTP | Rota    | Descrição                                                                                                                                                                                                    | Erros possíveis |
+| ----------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
+| GET         | /api/me | Retornar as informações do usuário logado (firstName, lastName, email, birthday, login, phone, cars) + createdAt (data da criação do usuário) + lastLogin (data da última vez que o usuário realizou login). | 1,2             |
 
 ```
 Requisitos:
@@ -134,15 +137,15 @@ Erros possíveis:
     1. Token não enviado: retornar um erro com a mensagem “Unauthorized”;
     2. Token expirado: retornar um erro com a mensagem “Unauthorized - invalid session”;
 ```
-**6 - Implementar API de carros**
+- [x] **6 - Implementar API de carros**
 
-| Rota | Descrição | Erros possíveis |
-| ---- | --------- | --------------- |
-| /api/cars      | Listar todos os carros do usuário logado                                                                                                                                                                     | 1,2             |
-| /api/cars      | Cadastrar um novo carro para o usuário logado                                                                                                                                                                | 1,2,3,4,5       |
-| /api/cars/{id} | Buscar um carro do usuário logado pelo id                                                                                                                                                                    | 1,2             |
-| /api/cars/{id} | Remover um carro do usuário logado pelo id                                                                                                                                                                   | 1,2             |
-| /api/cars/{id} | Atualizar um carro do usuário logado pelo id                                                                                                                                                                 | 1,2,3,4,5       |
+| Método HTTP | Rota           | Descrição                                     | Erros possíveis |
+| ----------- | -------------- | --------------------------------------------- | --------------- |
+| GET         | /api/cars      | Listar todos os carros do usuário logado      | 1,2             |
+| POST        | /api/cars      | Cadastrar um novo carro para o usuário logado | 1,2,3,4,5       |
+| GET         | /api/cars/{id} | Buscar um carro do usuário logado pelo id     | 1,2             |
+| DELETE      | /api/cars/{id} | Remover um carro do usuário logado pelo id    | 1,2             |
+| PUT         | /api/cars/{id} | Atualizar um carro do usuário logado pelo id  | 1,2,3,4,5       |
 
 ```
 Requisitos:
@@ -167,22 +170,22 @@ Exemplo de JSON para criação de carro:
 ```
 
 
-**7 - Documentar Testes, Build e Deploy**
+- [ ] **7 - Documentar Testes, Build e Deploy**
 
 O README.md do projeto deve ser claro e mostrar tudo que precisa ser feito para executar o build do projeto,
 deploy, testes, etc.
 
 
-**8 - Documentar Justificativa da solução**
+- [ ] **8 - Documentar Justificativa da solução**
 
 O README.md do projeto deverá ter uma seção SOLUÇÃO com as justificativas e defesa técnica da solução que
 está sendo entregue.
 
-**9 - Criar rota para upload da fotografia do usuário e do carro**
+- [ ] **9 - Criar rota para upload da fotografia do usuário e do carro**
 
-**10 - Documentação da API com Swagger**
+- [ ] **10 - Documentação da API com Swagger**
 
-**11 - Integrar com SonarQube**
+- [ ] **11 - Integrar com SonarQube**
 ____
 **Observações:**
 
@@ -196,6 +199,6 @@ ____
 ____
 ### Frontend
 
-**12 - Definir telas do frontend**
+- [ ] **12 - Definir telas do frontend**
 
-**13 - Definir estórias do frontend** 
+- [ ] **13 - Definir estórias do frontend** 

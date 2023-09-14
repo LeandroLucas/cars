@@ -1,16 +1,20 @@
 package com.company.carsapi.services;
 
+import com.company.carsapi.exceptions.AuthenticationException;
 import com.company.carsapi.exceptions.NotFoundException;
+import com.company.carsapi.models.persistence.Session;
+import com.company.carsapi.models.transport.request.AuthUser;
 import com.company.carsapi.models.transport.request.EditCar;
-import com.company.carsapi.models.transport.request.EditUser;
+import com.company.carsapi.models.transport.request.CreateUser;
 import com.company.carsapi.models.persistence.Car;
 import com.company.carsapi.models.persistence.User;
+import com.company.carsapi.models.transport.request.EditUser;
 import com.company.carsapi.models.transport.response.PrivateUserDto;
+import com.company.carsapi.models.transport.response.SessionDto;
 import com.company.carsapi.models.transport.response.UserDto;
 import com.company.carsapi.repositories.UserRepository;
 import com.company.carsapi.utils.CryptUtils;
 import jakarta.transaction.Transactional;
-import org.springframework.data.util.StreamUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -27,23 +31,31 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final CarService carService;
+    private final AuthService authService;
 
-    public UserService(UserRepository userRepository, CarService carService) {
+    public UserService(UserRepository userRepository, CarService carService, AuthService authService) {
         this.userRepository = userRepository;
         this.carService = carService;
+        this.authService = authService;
     }
 
     @Transactional
-    public UserDto create(EditUser createUser) {
+    public UserDto create(CreateUser createUser) {
         User user = new User();
         this.applyToUser(user, createUser);
+        if (!CollectionUtils.isEmpty(createUser.getCars())) {
+            List<Car> cars = user.getCars();
+            for (EditCar car : createUser.getCars()) {
+                cars.add(this.carService.preparePersistenceCar(user, car));
+            }
+        }
         user = this.userRepository.save(user);
         return this.persistenceToDto(user);
     }
 
-    public Iterable<UserDto> list() {
-        Iterable<User> users = this.userRepository.findAllOrdered();
-        return StreamUtils.createStreamFromIterator(users.iterator())
+    public List<UserDto> list() {
+        List<User> users = this.userRepository.findAllOrdered();
+        return users.stream()
                 .map(this::persistenceToDto).collect(Collectors.toList());
     }
 
@@ -69,9 +81,24 @@ public class UserService {
     @Transactional
     public void update(Long id, EditUser userData) {
         User user = this.find(id);
-        this.carService.deleteAll(user.getCars());
         this.applyToUser(user, userData);
         this.userRepository.save(user);
+    }
+
+    public PrivateUserDto getBySession(String token) {
+        Session session = this.authService.checkSession(token);
+        PrivateUserDto privateUserDto = this.persistenceToPrivateDto(session.getUser());
+        privateUserDto.setLastLogin(session.getCreatedAt());
+        return privateUserDto;
+    }
+
+    @Transactional
+    public SessionDto signIn(AuthUser auth) {
+        String encryptedPass = CryptUtils.encryptPassword(auth.getLogin(), auth.getPassword());
+        User user = this.findByCredentials(auth.getLogin(), encryptedPass)
+                .orElseThrow(AuthenticationException::new);
+        Session session = this.authService.buildSession(user);
+        return this.authService.persistenceToDto(session);
     }
 
     /**
@@ -88,13 +115,6 @@ public class UserService {
         user.setLogin(userData.getLogin());
         user.setPassword(CryptUtils.encryptPassword(userData.getLogin(), userData.getPassword())); //FIXME criptografar
         user.setPhone(userData.getPhone());
-        if (!CollectionUtils.isEmpty(userData.getCars())) {
-            List<Car> cars = user.getCars();
-            cars.clear();
-            for (EditCar car : userData.getCars()) {
-                cars.add(this.carService.preparePersistenceCar(user, car));
-            }
-        }
     }
 
     /**
@@ -112,29 +132,17 @@ public class UserService {
     public PrivateUserDto persistenceToPrivateDto(User user) {
         PrivateUserDto dto = new PrivateUserDto();
         this.applyToDto(dto, user);
+        dto.setLogin(user.getLogin());
+        dto.setCreatedAt(user.getCreatedAt());
+        dto.setPhone(user.getPhone());
+        dto.setBirthday(user.getBirthday());
         return dto;
     }
 
     private void applyToDto(UserDto dto, User user) {
         dto.setId(user.getId());
-        dto.setLogin(user.getLogin());
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());
-        dto.setCreatedAt(user.getCreatedAt());
-        dto.setPhone(user.getPhone());
-        dto.setBirthday(user.getBirthday());
-        dto.setCars(user.getCars().stream()
-                .sorted((cara, carb) -> {
-                    if (cara.getUsageCounter() > carb.getUsageCounter())
-                        return 1;
-                    else if (cara.getUsageCounter() == carb.getUsageCounter())
-                        return cara.getModel().compareToIgnoreCase(carb.getModel());
-                    else {
-                        return -1;
-                    }
-                })
-                .map(this.carService::persistencetoDto)
-                .collect(Collectors.toList()));
     }
 }

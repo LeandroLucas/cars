@@ -78,10 +78,8 @@ public class AuthControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.login", is("hello.world")))
                 .andExpect(jsonPath("$.firstName", is("Hello")))
                 .andExpect(jsonPath("$.lastName", is("World")))
-                .andExpect(jsonPath("$.email", is("hello@world.com")))
-                .andExpect(jsonPath("$.birthday", is("1990-05-01")));
+                .andExpect(jsonPath("$.email", is("hello@world.com")));
     }
 }

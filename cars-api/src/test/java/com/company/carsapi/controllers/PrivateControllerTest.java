@@ -16,8 +16,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,13 +30,11 @@ public class PrivateControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     public void getMeSuccess() throws Exception {
-        MvcResult result = this.signInSuccess();
-        String responseString = result.getResponse().getContentAsString();
-        String token = this.objectMapper.readTree(responseString).get("token").asText();
+        String token = this.signIn();
         this.mockMvc
                 .perform(get("/me")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
@@ -78,9 +75,93 @@ public class PrivateControllerTest {
                 .andExpect(jsonPath("$.message", is("Unauthorized")));
     }
 
-    public MvcResult signInSuccess() throws Exception {
+    @Test
+    public void listCarsSuccess() throws Exception {
+        String token = this.signIn();
+        this.mockMvc
+                .perform(get("/cars")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()", is(1)));
+    }
+
+    @Test
+    public void listCarsInvalidSession() throws Exception {
+        this.mockMvc
+                .perform(get("/cars")
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, "token")
+                )
+                .andDo(print())
+                .andExpect(status().isForbidden())
+                .andExpect(jsonPath("$.errorCode", is(403)))
+                .andExpect(jsonPath("$.message", is("Unauthorized - invalid session")));
+    }
+
+    @Test
+    public void getCarSuccess() throws Exception {
+        String token = this.signIn();
+        int carId = 1;
+        this.mockMvc
+                .perform(get("/cars/" + carId)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id", is(carId)))
+                .andExpect(jsonPath("$.model", is("Audi")));
+    }
+
+    @Test
+    public void getCarNotFound() throws Exception {
+        String token = this.signIn();
+        int carId = 3;
+        this.mockMvc
+                .perform(get("/cars/" + carId)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                )
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errorCode", is(404)))
+                .andExpect(jsonPath("$.message", is("Car not found")));
+    }
+
+    @Test
+    public void deleteCarSuccess() throws Exception {
+        String token = this.signIn();
+        int carId = 1;
+        this.mockMvc
+                .perform(delete("/cars/" + carId)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void deleteCarNotFound() throws Exception {
+        String token = this.signIn();
+        int carId = 3;
+        this.mockMvc
+                .perform(delete("/cars/" + carId)
+                        .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
+                        .header(HttpHeaders.AUTHORIZATION, token)
+                )
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.errorCode", is(404)))
+                .andExpect(jsonPath("$.message", is("Car not found")));
+    }
+
+    public String signIn() throws Exception {
         this.createUser();
-        return this.mockMvc
+        MvcResult result = this.mockMvc
                 .perform(post("/signin")
                         .content(AuthControllerTest.VALID_USER_CREDENTIALS)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
@@ -89,6 +170,8 @@ public class PrivateControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.token", notNullValue()))
                 .andReturn();
+        String responseString = result.getResponse().getContentAsString();
+        return this.objectMapper.readTree(responseString).get("token").asText();
     }
 
     private void createUser() throws Exception {
@@ -100,10 +183,8 @@ public class PrivateControllerTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.login", is("hello.world")))
                 .andExpect(jsonPath("$.firstName", is("Hello")))
                 .andExpect(jsonPath("$.lastName", is("World")))
-                .andExpect(jsonPath("$.email", is("hello@world.com")))
-                .andExpect(jsonPath("$.birthday", is("1990-05-01")));
+                .andExpect(jsonPath("$.email", is("hello@world.com")));
     }
 }

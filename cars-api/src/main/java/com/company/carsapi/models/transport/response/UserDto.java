@@ -25,31 +25,6 @@ public class UserDto {
      */
     private String email;
 
-    /**
-     * Login do usuário
-     */
-    private String login;
-
-    /**
-     * Telefone do usuário
-     */
-    private String phone;
-
-    /**
-     * Data de nascimento do usuário
-     */
-    private LocalDate birthday;
-
-    /**
-     * Momento da criação do usuário
-     */
-    private LocalDateTime createdAt;
-
-    /**
-     * Lista de carros do usuário
-     */
-    private List<CarDto> cars;
-
     public Long getId() {
         return id;
     }
@@ -82,43 +57,4 @@ public class UserDto {
         this.email = email;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public List<CarDto> getCars() {
-        return cars;
-    }
-
-    public void setCars(List<CarDto> cars) {
-        this.cars = cars;
-    }
 }

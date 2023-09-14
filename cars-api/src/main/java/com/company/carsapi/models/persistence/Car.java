@@ -19,7 +19,7 @@ public class Car {
     /**
      * Placa do carro
      */
-    @Column(nullable = false, length = DatabaseConstants.MAX_PLATE_LENGTH)
+    @Column(nullable = false, unique = true, length = DatabaseConstants.MAX_PLATE_LENGTH)
     private String licensePlate;
 
     /**

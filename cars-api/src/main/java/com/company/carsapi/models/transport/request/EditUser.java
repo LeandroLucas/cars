@@ -60,11 +60,6 @@ public class EditUser {
     @NotNull(message = ValidationConstants.MISSING_FIELDS_MESSAGE)
     private LocalDate birthday;
 
-    /**
-     * Lista de carros do usuário
-     */
-    private List<EditCar> cars;
-
     public String getFirstName() {
         return firstName;
     }
@@ -121,11 +116,4 @@ public class EditUser {
         this.birthday = birthday;
     }
 
-    public List<EditCar> getCars() {
-        return cars;
-    }
-
-    public void setCars(List<EditCar> cars) {
-        this.cars = cars;
-    }
 }

@@ -1,5 +1,6 @@
 package com.company.carsapi.controllers;
 
+import com.company.carsapi.models.transport.request.CreateUser;
 import com.company.carsapi.models.transport.request.EditUser;
 import com.company.carsapi.models.transport.response.UserDto;
 import com.company.carsapi.services.UserService;
@@ -9,6 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Validated
@@ -21,14 +24,14 @@ public class PublicController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> create(@Valid @RequestBody EditUser create)  {
+    public ResponseEntity<UserDto> create(@Valid @RequestBody CreateUser create)  {
         UserDto user = this.userService.create(create);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Iterable<UserDto>> list()  {
-        Iterable<UserDto> list = this.userService.list();
+    public ResponseEntity<List<UserDto>> list()  {
+        List<UserDto> list = this.userService.list();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
