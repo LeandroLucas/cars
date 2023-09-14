@@ -1,12 +1,13 @@
 package com.company.carsapi.services;
 
 import com.company.carsapi.exceptions.NotFoundException;
-import com.company.carsapi.models.transport.creation.EditCar;
-import com.company.carsapi.models.transport.creation.EditUser;
+import com.company.carsapi.models.transport.request.EditCar;
+import com.company.carsapi.models.transport.request.EditUser;
 import com.company.carsapi.models.persistence.Car;
 import com.company.carsapi.models.persistence.User;
 import com.company.carsapi.models.transport.response.UserDto;
 import com.company.carsapi.repositories.UserRepository;
+import com.company.carsapi.utils.CryptUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.data.util.StreamUtils;
 import org.springframework.stereotype.Service;
@@ -36,25 +37,26 @@ public class UserService {
         User user = new User();
         this.applyToUser(user, createUser);
         user = this.userRepository.save(user);
-        return this.persistencetoDto(user);
+        return this.persistenceToDto(user);
     }
 
     public Iterable<UserDto> list() {
         Iterable<User> users = this.userRepository.findAllOrdered();
         return StreamUtils.createStreamFromIterator(users.iterator())
-                .map(this::persistencetoDto).collect(Collectors.toList());
+                .map(this::persistenceToDto).collect(Collectors.toList());
     }
 
     public UserDto get(Long id) {
-        Optional<User> user = this.userRepository.findById(id);
-        if (user.isEmpty()) {
-            throw new NotFoundException("User");
-        }
-        return this.persistencetoDto(user.get());
+        User user = this.find(id);
+        return this.persistenceToDto(user);
     }
 
     public User find(Long id) {
         return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("User"));
+    }
+
+    public Optional<User> findByCredentials(String login, String encryptedPass) {
+        return this.userRepository.findByLoginAndPassword(login, encryptedPass);
     }
 
     @Transactional
@@ -83,7 +85,7 @@ public class UserService {
         user.setBirthday(userData.getBirthday());
         user.setEmail(userData.getEmail());
         user.setLogin(userData.getLogin());
-        user.setPassword(userData.getPassword()); //FIXME criptografar
+        user.setPassword(CryptUtils.encryptPassword(userData.getLogin(), userData.getPassword())); //FIXME criptografar
         user.setPhone(userData.getPhone());
         if (!CollectionUtils.isEmpty(userData.getCars())) {
             List<Car> cars = user.getCars();
@@ -100,7 +102,7 @@ public class UserService {
      * @param user Usuário que será convertido
      * @return UserDto com as informações do usuário
      */
-    private UserDto persistencetoDto(User user) {
+    private UserDto persistenceToDto(User user) {
         UserDto dto = new UserDto();
         dto.setId(user.getId());
         dto.setLogin(user.getLogin());

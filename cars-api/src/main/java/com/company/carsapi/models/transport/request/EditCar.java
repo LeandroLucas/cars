@@ -1,4 +1,4 @@
-package com.company.carsapi.models.transport.creation;
+package com.company.carsapi.models.transport.request;
 
 import com.company.carsapi.constants.DatabaseConstants;
 import com.company.carsapi.constants.ValidationConstants;

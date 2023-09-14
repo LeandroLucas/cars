@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 public class UserControllerTest {
 
-    private final String VALID_CREATE_USER_JSON = "{\"firstName\":\"Hello\",\"lastName\":\"World\",\"email\":\"hello@world.com\",\"birthday\":\"1990-05-01\",\"login\":\"hello.world\",\"password\":\"h3ll0\",\"phone\":\"988888888\",\"cars\":[{\"year\":2018,\"licensePlate\":\"PDV-0625\",\"model\":\"Audi\",\"color\":\"White\"}]}";
+    public static final String VALID_CREATE_USER_JSON = "{\"firstName\":\"Hello\",\"lastName\":\"World\",\"email\":\"hello@world.com\",\"birthday\":\"1990-05-01\",\"login\":\"hello.world\",\"password\":\"h3ll0\",\"phone\":\"988888888\",\"cars\":[{\"year\":2018,\"licensePlate\":\"PDV-0625\",\"model\":\"Audi\",\"color\":\"White\"}]}";
 
     private final String CREATE_USER_JSON_MISSING_PHONE = "{\"firstName\":\"Hello\",\"lastName\":\"World\",\"email\":\"hello@world.com\",\"birthday\":\"1990-05-01\",\"login\":\"hello.world\",\"password\":\"h3ll0\",\"cars\":[{\"year\":2018,\"licensePlate\":\"PDV-0625\",\"model\":\"Audi\",\"color\":\"White\"}]}";
 

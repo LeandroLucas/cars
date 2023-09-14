@@ -2,7 +2,7 @@ package com.company.carsapi.services;
 
 import com.company.carsapi.models.persistence.Car;
 import com.company.carsapi.models.persistence.User;
-import com.company.carsapi.models.transport.creation.EditCar;
+import com.company.carsapi.models.transport.request.EditCar;
 import com.company.carsapi.models.transport.response.CarDto;
 import com.company.carsapi.repositories.CarRepository;
 import jakarta.transaction.Transactional;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Classe responsável por manipular a tabela 'Car'
+ * Serviço responsável por manipular a tabela 'Car'
  */
 @Service
 public class CarService {

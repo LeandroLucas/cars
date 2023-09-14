@@ -1,7 +1,7 @@
-package com.company.carsapi.beans;
+package com.company.carsapi.config;
 
 import com.company.carsapi.constants.ValidationConstants;
-import com.company.carsapi.exceptions.NotFoundException;
+import com.company.carsapi.exceptions.*;
 import com.company.carsapi.models.transport.response.ErrorResponse;
 import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.hibernate.exception.ConstraintViolationException;
@@ -29,22 +29,23 @@ public class ResponseExceptionHandler
     protected ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(
             DataIntegrityViolationException ex, WebRequest request) {
 
-        ConstraintViolationException constraintViolationException = ((ConstraintViolationException) ex.getCause());
-        JdbcSQLIntegrityConstraintViolationException cause = (JdbcSQLIntegrityConstraintViolationException) constraintViolationException.getCause();
-        String causeMessage = cause.getMessage();
         String message = ValidationConstants.MISSING_FIELDS_MESSAGE;
-        if (causeMessage.startsWith(UNIQUE_INDEX_VIOLATION)) {
-            String fieldName = this.getFieldName(causeMessage);
-            message = fieldName + " already exists";
+        if(ex.getCause() instanceof ConstraintViolationException constraintViolationException) {
+            JdbcSQLIntegrityConstraintViolationException cause = (JdbcSQLIntegrityConstraintViolationException) constraintViolationException.getCause();
+            String causeMessage = cause.getMessage();
+            if (causeMessage.startsWith(UNIQUE_INDEX_VIOLATION)) {
+                String fieldName = this.getFieldName(causeMessage);
+                message = fieldName + " already exists";
+            }
         }
 
         ErrorResponse apiError = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), message);
         return ResponseEntity.status(apiError.getErrorCode()).body(apiError);
     }
 
-    @ExceptionHandler(value = {NotFoundException.class})
-    protected ResponseEntity<ErrorResponse> handleNotFoundException(
-            NotFoundException ex, WebRequest request) {
+    @ExceptionHandler(value = {NotFoundException.class, AuthenticationException.class, AuthorizationException.class, EncryptPasswordException.class})
+    protected ResponseEntity<ErrorResponse> handleCustomExceptions(
+            AbstractException ex, WebRequest request) {
         ErrorResponse apiError = new ErrorResponse(ex.getStatusCode(), ex.getMessage());
         return ResponseEntity.status(apiError.getErrorCode()).body(apiError);
     }

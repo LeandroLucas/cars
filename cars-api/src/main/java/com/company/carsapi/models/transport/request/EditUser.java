@@ -1,4 +1,4 @@
-package com.company.carsapi.models.transport.creation;
+package com.company.carsapi.models.transport.request;
 
 import com.company.carsapi.constants.DatabaseConstants;
 import com.company.carsapi.constants.ValidationConstants;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Classe responsável pela validação dos campos de criação e atualização de usuário
  */
-public class UpdateUser {
+public class EditUser {
 
     @Size(max = DatabaseConstants.MAX_NAME_LENGTH, message = ValidationConstants.INVALID_FIELDS_MESSAGE)
     @NotNull(message = ValidationConstants.MISSING_FIELDS_MESSAGE)

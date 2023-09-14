@@ -1,6 +1,6 @@
 package com.company.carsapi.controllers;
 
-import com.company.carsapi.models.transport.creation.EditUser;
+import com.company.carsapi.models.transport.request.EditUser;
 import com.company.carsapi.models.transport.response.UserDto;
 import com.company.carsapi.services.UserService;
 import jakarta.validation.Valid;
