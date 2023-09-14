@@ -8,10 +8,6 @@ public class PrivateUserDto extends UserDto {
 
     private LocalDateTime lastLogin;
 
-    /**
-     * Login do usuário
-     */
-    private String login;
 
     /**
      * Telefone do usuário
@@ -34,14 +30,6 @@ public class PrivateUserDto extends UserDto {
 
     public void setLastLogin(LocalDateTime lastLogin) {
         this.lastLogin = lastLogin;
-    }
-
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
     }
 
     public String getPhone() {

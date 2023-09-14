@@ -132,7 +132,6 @@ public class UserService {
     public PrivateUserDto persistenceToPrivateDto(User user) {
         PrivateUserDto dto = new PrivateUserDto();
         this.applyToDto(dto, user);
-        dto.setLogin(user.getLogin());
         dto.setCreatedAt(user.getCreatedAt());
         dto.setPhone(user.getPhone());
         dto.setBirthday(user.getBirthday());
@@ -141,6 +140,7 @@ public class UserService {
 
     private void applyToDto(UserDto dto, User user) {
         dto.setId(user.getId());
+        dto.setLogin(user.getLogin());
         dto.setEmail(user.getEmail());
         dto.setFirstName(user.getFirstName());
         dto.setLastName(user.getLastName());

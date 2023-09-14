@@ -167,7 +167,7 @@ Exemplo de JSON para criação de carro:
 ```
 
 
-- [ ] **7 - Documentar Testes, Build e Deploy**
+- [x] **7 - Documentar Testes, Build e Deploy**
 
 O README.md do projeto deve ser claro e mostrar tudo que precisa ser feito para executar o build do projeto,
 deploy, testes, etc.
@@ -196,6 +196,21 @@ ____
 ____
 ### Frontend
 
-- [ ] **12 - Definir telas do frontend**
+- [x] **12 - Definir telas do frontend**
 
-- [ ] **13 - Definir estórias do frontend** 
+- [x] **13 - Definir estórias do frontend** 
+
+- [ ] **14 - Criar projeto Angular + Angular Material**
+
+- [ ] **15 - Implementar Tela para demonstrar API não autenticada**
+```
+Requisitos:
+    Deve ser possível criar, listar, atualizar e deletar usuários
+```
+- [ ] **16 - Implementar login, area logada e logout**
+
+- [ ] **17 - Implementar tela de usuário logado**
+```
+Requisitos:
+    Deve ser possível criar, listar, atualizar e deletar carros
+```

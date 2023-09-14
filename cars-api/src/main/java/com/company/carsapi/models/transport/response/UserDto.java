@@ -11,6 +11,11 @@ public class UserDto {
     private Long id;
 
     /**
+     * Login do usuário
+     */
+    private String login;
+
+    /**
      * Nome do usuário
      */
     private String firstName;
@@ -57,4 +62,11 @@ public class UserDto {
         this.email = email;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
 }
