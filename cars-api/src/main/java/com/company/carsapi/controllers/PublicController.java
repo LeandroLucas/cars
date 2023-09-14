@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @Validated
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class PublicController {
 
     private final UserService userService;

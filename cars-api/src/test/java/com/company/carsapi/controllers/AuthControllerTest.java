@@ -34,7 +34,7 @@ public class AuthControllerTest {
     public void signInSuccess() throws Exception {
         this.createUser();
         this.mockMvc
-                .perform(post("/signin")
+                .perform(post("/api/signin")
                         .content(VALID_USER_CREDENTIALS)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
@@ -46,7 +46,7 @@ public class AuthControllerTest {
     @Test
     public void signInFail() throws Exception {
         this.mockMvc
-                .perform(post("/signin")
+                .perform(post("/api/signin")
                         .content(VALID_USER_CREDENTIALS)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
@@ -59,7 +59,7 @@ public class AuthControllerTest {
     @Test
     public void signOutFail() throws Exception {
         this.mockMvc
-                .perform(delete("/signout")
+                .perform(delete("/api/signout")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, "123")
                 )
@@ -71,7 +71,7 @@ public class AuthControllerTest {
 
     private void createUser() throws Exception {
         this.mockMvc
-                .perform(post("/users")
+                .perform(post("/api/users")
                         .content(PublicControllerTest.VALID_CREATE_USER_JSON)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )

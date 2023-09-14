@@ -36,7 +36,7 @@ public class PrivateControllerTest {
     public void getMeSuccess() throws Exception {
         String token = this.signIn();
         this.mockMvc
-                .perform(get("/me")
+                .perform(get("/api/me")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
@@ -53,7 +53,7 @@ public class PrivateControllerTest {
     @Test
     public void getMeInvalidSession() throws Exception {
         this.mockMvc
-                .perform(get("/me")
+                .perform(get("/api/me")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, "token")
                 )
@@ -66,7 +66,7 @@ public class PrivateControllerTest {
     @Test
     public void getMeNoAuthorization() throws Exception {
         this.mockMvc
-                .perform(get("/me")
+                .perform(get("/api/me")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -79,7 +79,7 @@ public class PrivateControllerTest {
     public void listCarsSuccess() throws Exception {
         String token = this.signIn();
         this.mockMvc
-                .perform(get("/cars")
+                .perform(get("/api/cars")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
@@ -91,7 +91,7 @@ public class PrivateControllerTest {
     @Test
     public void listCarsInvalidSession() throws Exception {
         this.mockMvc
-                .perform(get("/cars")
+                .perform(get("/api/cars")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, "token")
                 )
@@ -106,7 +106,7 @@ public class PrivateControllerTest {
         String token = this.signIn();
         int carId = 1;
         this.mockMvc
-                .perform(get("/cars/" + carId)
+                .perform(get("/api/cars/" + carId)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
@@ -121,7 +121,7 @@ public class PrivateControllerTest {
         String token = this.signIn();
         int carId = 3;
         this.mockMvc
-                .perform(get("/cars/" + carId)
+                .perform(get("/api/cars/" + carId)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
@@ -136,7 +136,7 @@ public class PrivateControllerTest {
         String token = this.signIn();
         int carId = 1;
         this.mockMvc
-                .perform(delete("/cars/" + carId)
+                .perform(delete("/api/cars/" + carId)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
@@ -149,7 +149,7 @@ public class PrivateControllerTest {
         String token = this.signIn();
         int carId = 3;
         this.mockMvc
-                .perform(delete("/cars/" + carId)
+                .perform(delete("/api/cars/" + carId)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                         .header(HttpHeaders.AUTHORIZATION, token)
                 )
@@ -162,7 +162,7 @@ public class PrivateControllerTest {
     public String signIn() throws Exception {
         this.createUser();
         MvcResult result = this.mockMvc
-                .perform(post("/signin")
+                .perform(post("/api/signin")
                         .content(AuthControllerTest.VALID_USER_CREDENTIALS)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
@@ -176,7 +176,7 @@ public class PrivateControllerTest {
 
     private void createUser() throws Exception {
         this.mockMvc
-                .perform(post("/users")
+                .perform(post("/api/users")
                         .content(PublicControllerTest.VALID_CREATE_USER_JSON)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )

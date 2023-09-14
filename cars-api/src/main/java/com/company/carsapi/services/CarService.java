@@ -32,7 +32,7 @@ public class CarService {
         Session session = this.authService.checkSession(token);
         Car car = this.preparePersistenceCar(session.getUser(), carToCreate);
         car = this.carRepository.save(car);
-        return this.persistencetoDto(car);
+        return this.persistenceToDto(car);
     }
 
     public void updateBySessionAndId(String token, Long id, EditCar carToUpdate) {
@@ -62,13 +62,14 @@ public class CarService {
      * @param car Objeto que será convertido
      * @return CarDto com as informações do carro
      */
-    public CarDto persistencetoDto(Car car) {
+    public CarDto persistenceToDto(Car car) {
         CarDto carDto = new CarDto();
         carDto.setId(car.getId());
         carDto.setYear(car.getYear());
         carDto.setColor(car.getColor());
         carDto.setModel(car.getModel());
         carDto.setLicensePlate(car.getLicensePlate());
+        carDto.setUsageCounter(car.getUsageCounter());
         return carDto;
     }
 
@@ -76,24 +77,26 @@ public class CarService {
         Session session = this.authService.checkSession(token);
         List<Car> cars = this.carRepository.findByUser(session.getUser());
         return cars.stream()
-                .sorted((cara, carb) -> {
-                    if (cara.getUsageCounter() > carb.getUsageCounter())
+                .sorted((carA, carB) -> {
+                    if (carA.getUsageCounter() < carB.getUsageCounter())
                         return 1;
-                    else if (cara.getUsageCounter() == carb.getUsageCounter())
-                        return cara.getModel().compareToIgnoreCase(carb.getModel());
+                    else if (carA.getUsageCounter() == carB.getUsageCounter())
+                        return carA.getModel().compareToIgnoreCase(carB.getModel());
                     else {
                         return -1;
                     }
                 })
-                .map(this::persistencetoDto)
+                .map(this::persistenceToDto)
                 .collect(Collectors.toList());
-
     }
 
+    @Transactional
     public CarDto getBySessionAndId(String token, Long id) {
         Session session = this.authService.checkSession(token);
         Car car = this.findByUserAndId(session.getUser(), id);
-        return this.persistencetoDto(car);
+        car.setUsageCounter(car.getUsageCounter() + 1);
+        this.carRepository.save(car);
+        return this.persistenceToDto(car);
     }
 
     private Car findByUserAndId(User user, Long id) {

@@ -24,6 +24,11 @@ public class CarDto {
      */
     private String color;
 
+    /**
+     * Contador de utilizações do veículo
+     */
+    private int usageCounter;
+
     public Long getId() {
         return id;
     }
@@ -64,5 +69,11 @@ public class CarDto {
         this.color = color;
     }
 
+    public int getUsageCounter() {
+        return usageCounter;
+    }
 
+    public void setUsageCounter(int usageCounter) {
+        this.usageCounter = usageCounter;
+    }
 }

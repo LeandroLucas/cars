@@ -1,16 +1,13 @@
 # CARS
 
-Sistema para criação de carros e usuários com autenticação.
+Sistema para criação de usuários de carros com autenticação.
 
 ## SOLUÇÃO
 
 
-## BUILD
+## TEST, BUILD
 
-### Requisitos
-
-- Java x
-- Maven x.x
+- [cars-api](./cars-api/README.md)
 
 ## MODELO DE DADOS
 
@@ -67,12 +64,12 @@ Requisitos:
 - [X] **4 - Implementar API de usuário (não requer autenticação)**
 
 | Método HTTP | Rota            | Descrição                    | Erros possíveis |
-| ------ | --------------- | ---------------------------- | --------------- |
-| GET | /api/users      | Listar todos os usuários     |                 |
-| POST | /api/users      | Cadastrar um novo usuário    | 2,3,4,5         |
-| GET | /api/users/{id} | Buscar um usuário pelo id    |                 |
-| DELETE| /api/users/{id} | Remover um usuário pelo id   |                 |
-| PUT | /api/users/{id} | Atualizar um usuário pelo id | 2,3,4,5         |
+| ----------- | --------------- | ---------------------------- | --------------- |
+| GET         | /api/users      | Listar todos os usuários     |                 |
+| POST        | /api/users      | Cadastrar um novo usuário    | 2,3,4,5         |
+| GET         | /api/users/{id} | Buscar um usuário pelo id    |                 |
+| DELETE      | /api/users/{id} | Remover um usuário pelo id   |                 |
+| PUT         | /api/users/{id} | Atualizar um usuário pelo id | 2,3,4,5         |
 ```
 Requisitos:
     testes unitários;
@@ -107,7 +104,7 @@ Exemplo de JSON para criação de usuário:
 | Método HTTP | Rota         | Descrição                                                                                                                                       | Erros possíveis |
 | ----------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
 | POST        | /api/signin  | Esta rota espera um objeto com os campos login e password, e deve retornar o token de acesso da API (JWT) com as informações do usuário logado. | 1               |
-| DELETE      | /api/signout | Deslogar usuário                                                                                                               | 1, 2, 3         |
+| DELETE      | /api/signout | Deslogar usuário                                                                                                                                | 1, 2, 3         |
 ```
 Requisitos:
     jwt token;

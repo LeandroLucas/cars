@@ -39,7 +39,7 @@ public class PublicControllerTest {
     @DisplayName("Create user success")
     public void createUserSuccess() throws Exception {
         this.mockMvc
-                .perform(post("/users")
+                .perform(post("/api/users")
                         .content(VALID_CREATE_USER_JSON)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
@@ -55,7 +55,7 @@ public class PublicControllerTest {
     @DisplayName("Create user with missing fields")
     public void createUserMissingFields() throws Exception {
         this.mockMvc
-                .perform(post("/users")
+                .perform(post("/api/users")
                         .content(CREATE_USER_JSON_MISSING_PHONE)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
@@ -69,7 +69,7 @@ public class PublicControllerTest {
     @DisplayName("Create user with invalid fields")
     public void createUserInvalidFields() throws Exception {
         this.mockMvc
-                .perform(post("/users")
+                .perform(post("/api/users")
                         .content(CREATE_USER_JSON_INVALID_PHONE)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
@@ -84,7 +84,7 @@ public class PublicControllerTest {
     public void createUserWhenLoginAlreadyExists() throws Exception {
         this.createUserSuccess();
         this.mockMvc
-                .perform(post("/users")
+                .perform(post("/api/users")
                         .content(VALID_CREATE_USER_JSON)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
@@ -99,7 +99,7 @@ public class PublicControllerTest {
     public void getUserSuccess() throws Exception {
         this.createUserSuccess();
         this.mockMvc
-                .perform(get("/users/1")
+                .perform(get("/api/users/1")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -114,7 +114,7 @@ public class PublicControllerTest {
     @DisplayName("Get user not found")
     public void getUserNotFound() throws Exception {
         this.mockMvc
-                .perform(get("/users/1")
+                .perform(get("/api/users/1")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -128,7 +128,7 @@ public class PublicControllerTest {
     public void deleteUserSuccess() throws Exception {
         this.createUserSuccess();
         this.mockMvc
-                .perform(delete("/users/1")
+                .perform(delete("/api/users/1")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
@@ -140,7 +140,7 @@ public class PublicControllerTest {
     public void updateUserSuccess() throws Exception {
         this.createUserSuccess();
         this.mockMvc
-                .perform(put("/users/1")
+                .perform(put("/api/users/1")
                         .content(VALID_CREATE_USER_JSON)
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
@@ -153,7 +153,7 @@ public class PublicControllerTest {
     public void listUserSuccess() throws Exception {
         this.createUserSuccess();
         this.mockMvc
-                .perform(get("/users")
+                .perform(get("/api/users")
                         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON)
                 )
                 .andDo(print())
