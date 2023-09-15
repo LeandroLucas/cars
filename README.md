@@ -209,8 +209,10 @@ Requisitos:
 ```
 - [x] **16 - Implementar login, area logada e logout**
 
-- [ ] **17 - Implementar tela de usuário logado**
+- [x] **17 - Implementar tela de usuário logado**
 ```
 Requisitos:
     Deve ser possível criar, listar, atualizar e deletar carros
 ```
+
+- [ ] **18 - Fazer deploy**

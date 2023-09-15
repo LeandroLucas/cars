@@ -32,7 +32,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final CarService carService;
-    
+
     private final AuthService authService;
 
     public UserService(UserRepository userRepository, CarService carService, AuthService authService) {
@@ -63,12 +63,7 @@ public class UserService {
 
     public GetUserDto get(Long id) {
         User user = this.find(id);
-        GetUserDto dto = new GetUserDto();
-        this.applyToDto(dto, user);
-        dto.setPhone(user.getPhone());
-        dto.setBirthday(user.getBirthday());
-        dto.setCars(this.carService.toDtoList(user.getCars()));
-        return dto;
+        return this.persistenceToGetUserDto(user);
     }
 
     public User find(Long id) {
@@ -94,9 +89,9 @@ public class UserService {
 
     public PrivateUserDto getBySession(String token) {
         Session session = this.authService.checkSession(token);
-        PrivateUserDto privateUserDto = this.persistenceToPrivateDto(session.getUser());
-        privateUserDto.setLastLogin(session.getCreatedAt());
-        return privateUserDto;
+        PrivateUserDto dto = this.persistenceToPrivateDto(session.getUser());
+        dto.setLastLogin(session.getCreatedAt());
+        return dto;
     }
 
     @Transactional
@@ -108,12 +103,22 @@ public class UserService {
         return this.authService.persistenceToDto(session);
     }
 
+    private GetUserDto persistenceToGetUserDto(User user) {
+        GetUserDto dto = new GetUserDto();
+        this.applyToDto(dto, user);
+        dto.setPhone(user.getPhone());
+        dto.setBirthday(user.getBirthday());
+        dto.setCars(this.carService.toDtoList(user.getCars()));
+        return dto;
+    }
+
     private PrivateUserDto persistenceToPrivateDto(User user) {
         PrivateUserDto dto = new PrivateUserDto();
         this.applyToDto(dto, user);
         dto.setCreatedAt(user.getCreatedAt());
         dto.setPhone(user.getPhone());
         dto.setBirthday(user.getBirthday());
+        dto.setCars(this.carService.toDtoList(user.getCars()));
         return dto;
     }
 

@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpHelperService } from './http-helper.service';
 import { Observable, firstValueFrom } from 'rxjs';
 import { StorageService } from './storage.service';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,8 @@ export class AuthService {
 
   public static TOKEN_KEY = "token"
 
-  private url = 'http://127.0.0.1:80/api'
+  private url = environment.apiUrl
+
   constructor(private http: HttpClient,
     private httpHelperService: HttpHelperService,
     private storageService: StorageService) { }

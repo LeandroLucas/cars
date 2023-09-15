@@ -49,7 +49,7 @@ export class UsersComponent implements OnInit {
     this.userService.list().then(users => {
       this.users = users
     }).catch(err => {
-      console.error('deu ruim')
+      console.error(err)
     })
   }
 

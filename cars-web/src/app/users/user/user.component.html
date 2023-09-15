@@ -1,7 +1,6 @@
 <mat-card id="container">
     <mat-card-header id="header" class="vertical">
-        <!-- colocar a imagem e nome aqui -->
-        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="account_circle" id="icon"></mat-icon>
+        <mat-icon aria-hidden="false" fontIcon="account_circle" id="icon"></mat-icon>
         <span>{{user.firstName + " " + user.lastName}}</span>
     </mat-card-header>
     <mat-card-content class="vertical">
@@ -9,10 +8,10 @@
         <span>{{user.login}}</span>
     </mat-card-content>
     <mat-card-actions class="horizontal">
-        <button mat-mini-fab color="accent" aria-label="Editar usuário" (click)="edit(user)">
+        <button mat-mini-fab color="accent" aria-label="Editar usuário" (click)="edit(user)" matTooltip="Editar">
             <mat-icon>edit</mat-icon>
         </button>
-        <button mat-mini-fab color="warn" aria-label="Editar usuário" (click)="delete(user)">
+        <button mat-mini-fab color="warn" aria-label="Editar usuário" (click)="delete(user)" matTooltip="Deletar">
             <mat-icon>delete</mat-icon>
         </button>
     </mat-card-actions>

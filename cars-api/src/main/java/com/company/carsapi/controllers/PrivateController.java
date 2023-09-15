@@ -3,18 +3,22 @@ package com.company.carsapi.controllers;
 import com.company.carsapi.config.CheckAuthorization;
 import com.company.carsapi.models.transport.request.EditCar;
 import com.company.carsapi.models.transport.response.CarDto;
+import com.company.carsapi.models.transport.response.GetUserDto;
 import com.company.carsapi.models.transport.response.PrivateUserDto;
 import com.company.carsapi.services.CarService;
 import com.company.carsapi.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@Validated
 @RequestMapping("/api")
 public class PrivateController {
 
@@ -28,8 +32,8 @@ public class PrivateController {
 
     @CheckAuthorization
     @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<PrivateUserDto> get(@RequestHeader(required = false, name = HttpHeaders.AUTHORIZATION) String token) {
-        PrivateUserDto user = this.userService.getBySession(token);
+    public ResponseEntity<GetUserDto> get(@RequestHeader(required = false, name = HttpHeaders.AUTHORIZATION) String token) {
+        GetUserDto user = this.userService.getBySession(token);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
@@ -43,7 +47,7 @@ public class PrivateController {
     @CheckAuthorization
     @PostMapping(path = "/cars", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDto> createCar(@RequestHeader(required = false, name = HttpHeaders.AUTHORIZATION) String token,
-                                            @RequestBody EditCar carToCreate) {
+                                            @RequestBody @Valid EditCar carToCreate) {
         CarDto car = this.carService.createCar(token, carToCreate);
         return ResponseEntity.status(HttpStatus.OK).body(car);
     }
@@ -68,7 +72,7 @@ public class PrivateController {
     @PutMapping(path = "/cars/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CarDto> updateCar(@RequestHeader(required = false, name = HttpHeaders.AUTHORIZATION) String token,
                                             @PathVariable("id") Long id,
-                                            @RequestBody EditCar carToUpdate) {
+                                            @RequestBody @Valid EditCar carToUpdate) {
         this.carService.updateBySessionAndId(token, id, carToUpdate);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

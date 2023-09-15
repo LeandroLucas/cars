@@ -1,0 +1,40 @@
+<section id="container" *ngIf="isOpen">
+    <mat-card id="form">
+        <mat-card-header id="header">
+            <mat-card-title id="title">
+                <span *ngIf="!editing">Crie um carro</span>
+                <span *ngIf="editing">Edite o carro</span>
+            </mat-card-title>
+        </mat-card-header>
+        <form #form="ngForm" (ngSubmit)="confirm()">
+            <mat-card-content class="vertical">
+                <mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+                <mat-form-field class="input">
+                    <mat-label>Model</mat-label>
+                    <input type="text" name="model" matInput placeholder="Ferrari" [(ngModel)]="car.model" required>
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Year</mat-label>
+                    <input type="number" name="year" matInput placeholder="2015" [(ngModel)]="car.year" required>
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>License Plate</mat-label>
+                    <input type="text" name="licensePlate" matInput placeholder="PDV-0630"
+                        [(ngModel)]="car.licensePlate" required>
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Color</mat-label>
+                    <input type="text" name="color" matInput placeholder="Pink" [(ngModel)]="car.color" required>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions class="horizontal" id="actions">
+                <button mat-raised-button color="primary" (click)="cancel()" [disabled]="loading">Cancelar</button>
+                <button mat-raised-button color="accent" type="submit" [disabled]="loading || !form.valid">
+                    <span *ngIf="!editing">Criar</span>
+                    <span *ngIf="editing">Editar</span>
+                </button>
+            </mat-card-actions>
+        </form>
+
+    </mat-card>
+</section>

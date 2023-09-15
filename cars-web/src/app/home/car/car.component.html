@@ -1,0 +1,21 @@
+<mat-card id="container">
+    <mat-card-header id="header" class="vertical">
+        <mat-icon aria-hidden="false" fontIcon="directions_car" id="icon"></mat-icon>
+        <span>{{car.model}} ({{car.year}})</span>
+    </mat-card-header>
+    <mat-card-content class="vertical">
+        <span>{{car.licensePlate}}</span>
+        <span>{{car.color}}</span>
+    </mat-card-content>
+    <mat-card-actions class="horizontal">
+        <button mat-mini-fab color="accent" (click)="use()" matTooltip="Usar" [disabled]="loading">
+            <mat-icon>key</mat-icon>
+        </button>
+        <button mat-mini-fab color="accent" (click)="edit()" matTooltip="Editar" [disabled]="loading">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" (click)="delete()" matTooltip="Deletar" [disabled]="loading">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-card-actions>
+</mat-card>

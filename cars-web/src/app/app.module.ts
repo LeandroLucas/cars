@@ -19,6 +19,9 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CarComponent } from './home/car/car.component';
+import { CarEditorComponent } from './home/car-editor/car-editor.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +31,9 @@ import { HomeComponent } from './home/home.component';
     UserEditorComponent,
     ModalDirective,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    CarComponent,
+    CarEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +47,8 @@ import { HomeComponent } from './home/home.component';
     MatInputModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]

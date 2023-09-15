@@ -36,7 +36,6 @@ export class UserComponent {
   }
 
   togglePannel() {
-    console.log(this.carsPanelOpen)
     if (this.carsPanelOpen && this.user.cars == null) {
       this.carsLoading = true
       this.userService.get(this.user.id)

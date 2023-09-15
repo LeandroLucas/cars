@@ -16,7 +16,6 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) { }
 
   login() {
-    console.log(this.credentials)
     this.loading = true
     this.authService.login(this.credentials)
       .then(session => {
