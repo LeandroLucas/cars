@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable, of as observableOf } from 'rxjs';
 import { StorageService } from './storage.service';
+import { AuthService } from './auth.service';
 
-const TOKEN_KEY = "Authorization"
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +17,7 @@ export class HttpHelperService {
     if (headers) {
       httpHeaders = new HttpHeaders(headers);
     } else {
-      httpHeaders = new HttpHeaders({ token: this.storageService.get(TOKEN_KEY)!! });
+      httpHeaders = new HttpHeaders({ Authorization: this.storageService.get(AuthService.TOKEN_KEY)!! });
     }
     const httpOptions = {
       headers: httpHeaders

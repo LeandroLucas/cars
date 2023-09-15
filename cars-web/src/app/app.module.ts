@@ -17,6 +17,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
     UsersComponent,
     UserComponent,
     UserEditorComponent,
-    ModalDirective
+    ModalDirective,
+    LoginComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

@@ -207,7 +207,7 @@ ____
 Requisitos:
     Deve ser possível criar, listar, atualizar e deletar usuários
 ```
-- [ ] **16 - Implementar login, area logada e logout**
+- [x] **16 - Implementar login, area logada e logout**
 
 - [ ] **17 - Implementar tela de usuário logado**
 ```
