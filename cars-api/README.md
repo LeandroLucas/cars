@@ -6,7 +6,7 @@ API RESTful para Sistema de Usuários de Carros
 
 ### Requisitos
 
-- Java 17
+- JDK 17
 - Maven 3.9.4
 
 ### Executar Testes

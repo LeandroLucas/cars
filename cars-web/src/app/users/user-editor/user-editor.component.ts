@@ -41,7 +41,7 @@ export class UserEditorComponent {
       this.editing = false
     } else {
       this.loading = true
-      this.user = user
+      this.user = { ...user }
       this.userService.get(user.id)
         .then(user => {
           this.loading = false

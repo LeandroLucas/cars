@@ -5,9 +5,38 @@ Sistema para criação de usuários de carros com autenticação.
 ## SOLUÇÃO
 
 
-## TEST, BUILD
+## BUILD
+
+**Informações específicas sobre o build de cada projeto:**
 
 - [cars-api](./cars-api/README.md)
+- [cars-web](./cars-web/README.md)
+
+### Para build, executar um dos Script de build a partir da raiz do repositório
+
+Obs.: alterar a versão da imagem docker que será gerada no build-docker.sh
+
+### Requisitos para execução do script:
+- JDK 17+
+- Maven 3.9
+- nodejs 10+
+- npm 8+
+- Docker
+
+Para gerar apenas o jar, com frontend e backend:
+```
+sh build-jar.sh
+```
+Para gerar imagem docker:
+```
+sh build-docker.sh
+```
+
+### Variáveis de ambiente
+O backend e a imagem docker possuem algumas variáveis de ambiente, são elas:
+
+- **ALLOWED_ORIGINS**: origens com acesso permitido na api, separadas por virgula
+- **SERVER_PORT**: porta do servidor, padrão: 80
 
 ## MODELO DE DADOS
 
@@ -215,4 +244,4 @@ Requisitos:
     Deve ser possível criar, listar, atualizar e deletar carros
 ```
 
-- [ ] **18 - Fazer deploy**
+- [x] **18 - Fazer deploy**
