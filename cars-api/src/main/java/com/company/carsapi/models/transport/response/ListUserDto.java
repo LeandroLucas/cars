@@ -1,12 +1,6 @@
 package com.company.carsapi.models.transport.response;
 
-import com.company.carsapi.models.persistence.Car;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
-
-public class UserDto {
+public class ListUserDto {
 
     private Long id;
 

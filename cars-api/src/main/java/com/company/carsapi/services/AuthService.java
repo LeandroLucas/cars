@@ -1,15 +1,10 @@
 package com.company.carsapi.services;
 
-import com.company.carsapi.exceptions.AuthenticationException;
 import com.company.carsapi.exceptions.AuthorizationException;
 import com.company.carsapi.models.persistence.Session;
 import com.company.carsapi.models.persistence.User;
-import com.company.carsapi.models.transport.request.AuthUser;
-import com.company.carsapi.models.transport.response.PrivateUserDto;
 import com.company.carsapi.models.transport.response.SessionDto;
-import com.company.carsapi.models.transport.response.UserDto;
 import com.company.carsapi.repositories.SessionRepository;
-import com.company.carsapi.utils.CryptUtils;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;

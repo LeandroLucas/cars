@@ -1,23 +1,13 @@
 package com.company.carsapi.models.transport.response;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
-public class PrivateUserDto extends UserDto {
+public class PrivateUserDto extends GetUserDto {
 
+    /**
+     * Data do último login do usuário
+     */
     private LocalDateTime lastLogin;
-
-
-    /**
-     * Telefone do usuário
-     */
-    private String phone;
-
-    /**
-     * Data de nascimento do usuário
-     */
-    private LocalDate birthday;
 
     /**
      * Momento da criação do usuário
@@ -32,21 +22,6 @@ public class PrivateUserDto extends UserDto {
         this.lastLogin = lastLogin;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public LocalDate getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(LocalDate birthday) {
-        this.birthday = birthday;
-    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

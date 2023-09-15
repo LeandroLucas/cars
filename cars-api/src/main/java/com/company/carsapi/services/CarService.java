@@ -76,6 +76,26 @@ public class CarService {
     public List<CarDto> listBySession(String token) {
         Session session = this.authService.checkSession(token);
         List<Car> cars = this.carRepository.findByUser(session.getUser());
+        return this.toDtoList(cars);
+    }
+
+    @Transactional
+    public CarDto getBySessionAndId(String token, Long id) {
+        Session session = this.authService.checkSession(token);
+        Car car = this.findByUserAndId(session.getUser(), id);
+        car.setUsageCounter(car.getUsageCounter() + 1);
+        this.carRepository.save(car);
+        return this.persistenceToDto(car);
+    }
+
+    @Transactional
+    public void deleteBySessionAndId(String token, Long id) {
+        Session session = this.authService.checkSession(token);
+        Car car = this.findByUserAndId(session.getUser(), id);
+        this.carRepository.delete(car);
+    }
+
+    public List<CarDto> toDtoList(List<Car> cars) {
         return cars.stream()
                 .sorted((carA, carB) -> {
                     if (carA.getUsageCounter() < carB.getUsageCounter())
@@ -90,23 +110,7 @@ public class CarService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
-    public CarDto getBySessionAndId(String token, Long id) {
-        Session session = this.authService.checkSession(token);
-        Car car = this.findByUserAndId(session.getUser(), id);
-        car.setUsageCounter(car.getUsageCounter() + 1);
-        this.carRepository.save(car);
-        return this.persistenceToDto(car);
-    }
-
     private Car findByUserAndId(User user, Long id) {
         return this.carRepository.findByUserAndId(user, id).orElseThrow(() -> new NotFoundException("Car"));
-    }
-
-    @Transactional
-    public void deleteBySessionAndId(String token, Long id) {
-        Session session = this.authService.checkSession(token);
-        Car car = this.findByUserAndId(session.getUser(), id);
-        this.carRepository.delete(car);
     }
 }

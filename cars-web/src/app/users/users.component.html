@@ -1,0 +1,11 @@
+<section id="container">
+    <mat-card-header id="header">
+        <mat-card-title id="title">Usuários de Carro <mat-icon id="refresh"
+                (click)="listUsers()">refresh</mat-icon></mat-card-title>
+        <button mat-raised-button color="primary" (click)="create()">Criar Usuário</button>
+    </mat-card-header>
+    <mat-card-content id="content">
+        <app-user *ngFor="let user of users" [user]="user" [listener]="eventsListener"></app-user>
+    </mat-card-content>
+</section>
+<ng-template modalHost></ng-template>

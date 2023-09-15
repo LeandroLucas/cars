@@ -2,7 +2,7 @@ package com.company.carsapi.controllers;
 
 import com.company.carsapi.models.transport.request.CreateUser;
 import com.company.carsapi.models.transport.request.EditUser;
-import com.company.carsapi.models.transport.response.UserDto;
+import com.company.carsapi.models.transport.response.ListUserDto;
 import com.company.carsapi.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -24,20 +24,20 @@ public class PublicController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> create(@Valid @RequestBody CreateUser create)  {
-        UserDto user = this.userService.create(create);
+    public ResponseEntity<ListUserDto> create(@Valid @RequestBody CreateUser create)  {
+        ListUserDto user = this.userService.create(create);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserDto>> list()  {
-        List<UserDto> list = this.userService.list();
+    public ResponseEntity<List<ListUserDto>> list()  {
+        List<ListUserDto> list = this.userService.list();
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> get(@PathVariable("id") Long id)  {
-        UserDto user = this.userService.get(id);
+    public ResponseEntity<ListUserDto> get(@PathVariable("id") Long id)  {
+        ListUserDto user = this.userService.get(id);
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 

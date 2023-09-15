@@ -9,9 +9,10 @@ import com.company.carsapi.models.transport.request.CreateUser;
 import com.company.carsapi.models.persistence.Car;
 import com.company.carsapi.models.persistence.User;
 import com.company.carsapi.models.transport.request.EditUser;
+import com.company.carsapi.models.transport.response.GetUserDto;
+import com.company.carsapi.models.transport.response.ListUserDto;
 import com.company.carsapi.models.transport.response.PrivateUserDto;
 import com.company.carsapi.models.transport.response.SessionDto;
-import com.company.carsapi.models.transport.response.UserDto;
 import com.company.carsapi.repositories.UserRepository;
 import com.company.carsapi.utils.CryptUtils;
 import jakarta.transaction.Transactional;
@@ -31,6 +32,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final CarService carService;
+    
     private final AuthService authService;
 
     public UserService(UserRepository userRepository, CarService carService, AuthService authService) {
@@ -40,7 +42,7 @@ public class UserService {
     }
 
     @Transactional
-    public UserDto create(CreateUser createUser) {
+    public ListUserDto create(CreateUser createUser) {
         User user = new User();
         this.applyToUser(user, createUser);
         if (!CollectionUtils.isEmpty(createUser.getCars())) {
@@ -53,15 +55,20 @@ public class UserService {
         return this.persistenceToDto(user);
     }
 
-    public List<UserDto> list() {
+    public List<ListUserDto> list() {
         List<User> users = this.userRepository.findAllOrdered();
         return users.stream()
                 .map(this::persistenceToDto).collect(Collectors.toList());
     }
 
-    public UserDto get(Long id) {
+    public GetUserDto get(Long id) {
         User user = this.find(id);
-        return this.persistenceToDto(user);
+        GetUserDto dto = new GetUserDto();
+        this.applyToDto(dto, user);
+        dto.setPhone(user.getPhone());
+        dto.setBirthday(user.getBirthday());
+        dto.setCars(this.carService.toDtoList(user.getCars()));
+        return dto;
     }
 
     public User find(Long id) {
@@ -101,6 +108,15 @@ public class UserService {
         return this.authService.persistenceToDto(session);
     }
 
+    private PrivateUserDto persistenceToPrivateDto(User user) {
+        PrivateUserDto dto = new PrivateUserDto();
+        this.applyToDto(dto, user);
+        dto.setCreatedAt(user.getCreatedAt());
+        dto.setPhone(user.getPhone());
+        dto.setBirthday(user.getBirthday());
+        return dto;
+    }
+
     /**
      * Aplica no user as informações do EditUser
      *
@@ -123,22 +139,13 @@ public class UserService {
      * @param user Usuário que será convertido
      * @return UserDto com as informações do usuário
      */
-    private UserDto persistenceToDto(User user) {
-        UserDto dto = new UserDto();
+    private ListUserDto persistenceToDto(User user) {
+        ListUserDto dto = new ListUserDto();
         this.applyToDto(dto, user);
         return dto;
     }
 
-    public PrivateUserDto persistenceToPrivateDto(User user) {
-        PrivateUserDto dto = new PrivateUserDto();
-        this.applyToDto(dto, user);
-        dto.setCreatedAt(user.getCreatedAt());
-        dto.setPhone(user.getPhone());
-        dto.setBirthday(user.getBirthday());
-        return dto;
-    }
-
-    private void applyToDto(UserDto dto, User user) {
+    private void applyToDto(ListUserDto dto, User user) {
         dto.setId(user.getId());
         dto.setLogin(user.getLogin());
         dto.setEmail(user.getEmail());

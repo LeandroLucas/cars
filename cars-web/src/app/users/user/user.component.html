@@ -1,0 +1,40 @@
+<mat-card id="container">
+    <mat-card-header id="header" class="vertical">
+        <!-- colocar a imagem e nome aqui -->
+        <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="account_circle" id="icon"></mat-icon>
+        <span>{{user.firstName + " " + user.lastName}}</span>
+    </mat-card-header>
+    <mat-card-content class="vertical">
+        <span>{{user.email}}</span>
+        <span>{{user.login}}</span>
+    </mat-card-content>
+    <mat-card-actions class="horizontal">
+        <button mat-mini-fab color="accent" aria-label="Editar usuário" (click)="edit(user)">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-mini-fab color="warn" aria-label="Editar usuário" (click)="delete(user)">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </mat-card-actions>
+    <mat-card-footer id="footer">
+        <mat-expansion-panel id="cars-panel" (opened)="carsPanelOpen = true" (closed)="carsPanelOpen = false"
+            (click)="togglePannel()">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Carros
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div *ngIf="(user.cars == null || user.cars.length == 0) && !carsLoading">
+                <span>Nenhum carro disponível</span>
+            </div>
+            <div *ngIf="carsLoading">
+                <span>Carregando...</span>
+            </div>
+            <div class="car" *ngFor="let car of user.cars" class="full-width">
+                <span>{{car.model}}</span><span> [{{car.usageCounter}}]</span>
+            </div>
+
+        </mat-expansion-panel>
+    </mat-card-footer>
+</mat-card>

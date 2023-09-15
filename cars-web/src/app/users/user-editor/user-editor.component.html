@@ -1,0 +1,70 @@
+<section id="container" *ngIf="isOpen">
+    <mat-card id="form">
+        <mat-card-header id="header">
+            <mat-card-title id="title">
+                <span *ngIf="!editing">Crie um usuário</span>
+                <span *ngIf="editing">Edite o usuário</span>
+            </mat-card-title>
+        </mat-card-header>
+        <form #form="ngForm" (ngSubmit)="confirm()">
+            <mat-card-content class="vertical">
+                <mat-error *ngIf="errorMsg">{{errorMsg}}</mat-error>
+                <mat-form-field class="input">
+                    <mat-label>Email</mat-label>
+                    <input type="email" name="email" matInput placeholder="Ex. pat@example.com" [(ngModel)]="user.email"
+                        required>
+                    <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
+                </mat-form-field>
+                <table class="input" cellspacing="0">
+                    <tr>
+                        <td>
+                            <mat-form-field class="input">
+                                <mat-label>First name</mat-label>
+                                <input matInput name="firstName" [(ngModel)]="user.firstName" required>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field class="input">
+                                <mat-label>Last name</mat-label>
+                                <input matInput name="lastName" [(ngModel)]="user.lastName" required>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+                <mat-form-field class="input">
+                    <mat-label>Login</mat-label>
+                    <input type="text" name="login" matInput placeholder="login.example" [(ngModel)]="user.login"
+                        required>
+                    <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Password</mat-label>
+                    <input type="password" name="password" matInput placeholder="********" [(ngModel)]="user.password"
+                        required>
+                    <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Phone</mat-label>
+                    <input type="number" name="phone" matInput placeholder="988888888" [(ngModel)]="user.phone"
+                        required>
+                    <!-- <mat-hint>Errors appear instantly!</mat-hint> -->
+                </mat-form-field>
+                <mat-form-field class="input">
+                    <mat-label>Birthday</mat-label>
+                    <input matInput [matDatepicker]="picker" name="birthday" [(ngModel)]="user.birthday" required>
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker startView="year" [startAt]="prickerStartDate"></mat-datepicker>
+                </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions class="horizontal" id="actions">
+                <button mat-raised-button color="primary" (click)="cancel()" [disabled]="loading">Cancelar</button>
+                <button mat-raised-button color="accent" type="submit" [disabled]="loading">
+                    <span *ngIf="!editing">Criar</span>
+                    <span *ngIf="editing">Editar</span>
+                </button>
+            </mat-card-actions>
+        </form>
+
+    </mat-card>
+</section>

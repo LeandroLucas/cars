@@ -200,9 +200,9 @@ ____
 
 - [x] **13 - Definir estórias do frontend** 
 
-- [ ] **14 - Criar projeto Angular + Angular Material**
+- [x] **14 - Criar projeto Angular + Angular Material**
 
-- [ ] **15 - Implementar Tela para demonstrar API não autenticada**
+- [x] **15 - Implementar Tela para demonstrar endpoints sem autenticação**
 ```
 Requisitos:
     Deve ser possível criar, listar, atualizar e deletar usuários
