@@ -1,6 +1,12 @@
 <mat-card id="container">
     <mat-card-header id="header" class="vertical">
-        <mat-icon aria-hidden="false" fontIcon="directions_car" id="icon"></mat-icon>
+        <label [for]="'file-upload-'+car.id" class="custom-file-upload-button">
+            <mat-icon aria-hidden="false" fontIcon="directions_car" id="icon" matTooltip="Fazer Upload da Imagem"
+                *ngIf="!car.imageName"></mat-icon>
+            <img id="icon" [src]="getImgUrl()" *ngIf="car.imageName" />
+        </label>
+        <input [id]="'file-upload-'+car.id" type="file" (change)="onCarImageSelected($event)"
+            accept=".jpg, .png, .gif" />
         <span>{{car.model}} ({{car.year}})</span>
     </mat-card-header>
     <mat-card-content class="vertical">
@@ -8,7 +14,7 @@
         <span>{{car.color}}</span>
     </mat-card-content>
     <mat-card-actions class="horizontal">
-        <button mat-mini-fab color="accent" (click)="use()" matTooltip="Usar" [disabled]="loading">
+        <button mat-mini-fab color="primary" (click)="use()" matTooltip="Usar" [disabled]="loading">
             <mat-icon>key</mat-icon>
         </button>
         <button mat-mini-fab color="accent" (click)="edit()" matTooltip="Editar" [disabled]="loading">

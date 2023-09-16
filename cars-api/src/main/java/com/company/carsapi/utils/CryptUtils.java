@@ -36,8 +36,14 @@ public class CryptUtils {
 
 		String algorithm = "PBKDF2WithHmacSHA1";
 
-		int derivedKeyLength = 160;
+		int derivedKeyLength = 160; //160 bits (20 bytes)
 
+		/*
+		 * A quantidade de iterações é um fator crítico para a segurança das senhas.
+		 * Um número maior de iterações torna mais difícil realizar
+		 * ataques de força bruta ou de dicionário, pois cada tentativa de
+		 * adivinhar a senha requer um tempo significativo para calcular a chave derivada.
+		 */
 		int iterations = 20000;
 
 		KeySpec spec = new PBEKeySpec(password.toCharArray(), salt, iterations, derivedKeyLength);

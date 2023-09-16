@@ -71,6 +71,7 @@ export class UserEditorComponent {
           this.listener?.onUserUpdated?.(this.user)
           this.close()
           this.loading = false
+          this.errorMsg = null
         }).catch(response => {
           this.errorMsg = response.error.message
           this.loading = false
@@ -81,6 +82,7 @@ export class UserEditorComponent {
           this.listener?.onUserCreated?.(user)
           this.close()
           this.loading = false
+          this.errorMsg = null
         }).catch(response => {
           this.errorMsg = response.error.message
           this.loading = false
@@ -89,11 +91,14 @@ export class UserEditorComponent {
   }
 
   private formatDate(date: Date) {
-    const year = date.getFullYear()
-    const month = String(date.getMonth() + 1).padStart(2, '0')
-    const day = String(date.getDate()).padStart(2, '0')
+    if (date) {
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
 
-    return `${year}-${month}-${day}`
+      return `${year}-${month}-${day}`
+    }
+    return null
   }
 
   private buildDate(date: string): Date {

@@ -30,7 +30,7 @@ public class ResponseExceptionHandler
             DataIntegrityViolationException ex, WebRequest request) {
 
         String message = ValidationConstants.MISSING_FIELDS_MESSAGE;
-        if(ex.getCause() instanceof ConstraintViolationException constraintViolationException) {
+        if (ex.getCause() instanceof ConstraintViolationException constraintViolationException) {
             JdbcSQLIntegrityConstraintViolationException cause = (JdbcSQLIntegrityConstraintViolationException) constraintViolationException.getCause();
             String causeMessage = cause.getMessage();
             if (causeMessage.startsWith(UNIQUE_INDEX_VIOLATION)) {
@@ -43,7 +43,11 @@ public class ResponseExceptionHandler
         return ResponseEntity.status(apiError.getErrorCode()).body(apiError);
     }
 
-    @ExceptionHandler(value = {NotFoundException.class, AuthenticationException.class, AuthorizationException.class, EncryptPasswordException.class})
+    @ExceptionHandler(value = {NotFoundException.class,
+            AuthenticationException.class,
+            AuthorizationException.class,
+            EncryptPasswordException.class,
+            ImageUploadException.class})
     protected ResponseEntity<ErrorResponse> handleCustomExceptions(
             AbstractException ex, WebRequest request) {
         ErrorResponse apiError = new ErrorResponse(ex.getStatusCode(), ex.getMessage());

@@ -70,6 +70,7 @@ public class CarService {
         carDto.setModel(car.getModel());
         carDto.setLicensePlate(car.getLicensePlate());
         carDto.setUsageCounter(car.getUsageCounter());
+        carDto.setImageName(car.getImageName());
         return carDto;
     }
 
@@ -108,6 +109,12 @@ public class CarService {
                 })
                 .map(this::persistenceToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public CarDto save(Car car) {
+        Car carSaved = this.carRepository.save(car);
+        return this.persistenceToDto(carSaved);
     }
 
     private Car findByUserAndId(User user, Long id) {

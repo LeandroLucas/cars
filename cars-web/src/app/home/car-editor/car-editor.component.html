@@ -28,11 +28,11 @@
                 </mat-form-field>
             </mat-card-content>
             <mat-card-actions class="horizontal" id="actions">
-                <button mat-raised-button color="primary" (click)="cancel()" [disabled]="loading">Cancelar</button>
                 <button mat-raised-button color="accent" type="submit" [disabled]="loading || !form.valid">
                     <span *ngIf="!editing">Criar</span>
                     <span *ngIf="editing">Editar</span>
                 </button>
+                <button mat-raised-button color="primary" (click)="cancel()" [disabled]="loading">Cancelar</button>
             </mat-card-actions>
         </form>
 

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { environment } from 'src/environments/environment';
 import { PrivateService } from 'src/services/private.service';
 
 @Component({
@@ -13,6 +14,8 @@ export class CarComponent {
   @Input() listener!: any
 
   loading: boolean = false
+
+  errorMsg: string | null = null
 
   constructor(private privateService: PrivateService) { }
 
@@ -42,5 +45,27 @@ export class CarComponent {
       .catch(err => {
         console.error(err)
       })
+  }
+
+  onCarImageSelected(event: any) {
+    const selectedFile = event.target.files[0] as File;
+    console.log(selectedFile)
+    this.loading = true
+    this.privateService.uploadCarImage(this.car.id, selectedFile)
+      .then((car: any) => {
+        this.loading = false
+        this.errorMsg = null
+        setTimeout(() => {
+          this.car.imageName = car.imageName
+        }, 1000)
+      })
+      .catch(err => {
+        this.errorMsg = err.error.message
+        this.loading = false
+      })
+  }
+
+  getImgUrl(): string {
+    return `${environment.imagesUrl}${this.car.imageName}`
   }
 }

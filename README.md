@@ -1,9 +1,30 @@
 # CARS
 
-Sistema para criação de usuários de carros com autenticação.
+API RESTful para Sistema de Usuários de Carros
 
 ## SOLUÇÃO
 
+### Backend
+Para o backend, foi utilizado spring boot 3 com hibernate e banco de dados em memória H2. A API foi separada em três controllers:
+**PublicController.java** é onde estão os endpoints que podem ser acessados sem token de autenticação,
+no **AuthController.java** estão ```/api/signin``` e ```/api/signout```, endpoints de autenticação e no **PrivateController.java** estão os endpoints autenticados. Para validação do token, foram criadas uma anotação (```CheckAuthorization.java```) e uma classe anotada com ```@Aspect``` (```AuthorizationAspect.java```) para interceptar a execução dos métodos anotados com ela, assim os endpoints só são executados após as validações necessárias. 
+Todas as requisições com body possuem um objeto configurado com as anotações do ```jakarta.validation```, os controllers possuem a anotação ```@Validated``` e os parametros que precisam ser validados são anotados com ```@Valid```. O **ImageUploadController.java** está o endpoint para upload de imagem do veículo.
+
+Ao criar um usuário, a senha é criptografada usando o ```CryptUtils.java``` usando o algoritmo de derivação de chave PBKDF2 (Password-Based Key Derivation Function 2) com HMAC-SHA1 como função de hash. A ideia principal por trás deste processo é pegar uma senha e um "salt" (um valor aleatório), aplicar várias iterações do algoritmo PBKDF2 junto com o salt e gerar uma chave derivada que é usada para autenticar o usuário de forma segura.
+
+Para retornar os erros corretamente, foram criadas exceções customizadas (pacote ```com.company.carsapi.exceptions```) e o mapeamento da resposta no ```ResponseExceptionHandler.java```. Os carros e usuários são ordenados como nos requisitos extras. O ```ScheduledLogout.java``` implementa uma rotina que seta uma data no logoutAt das sessões expiradas usando ```@Scheduled``` do Spring.
+
+A Aplicação possui 25 testes automatizados, sendo a maior parte testes de requisição aos controllers com ```MockMvc``` em ```cars-api/src/test/java/com/company/carsapi/controllers```, testando assim todo o código nos endpoints. Alguns testes unitários com ```Mockito``` também foram desenvolvidos em ```cars-api/src/test/java/com/company/carsapi/services```.
+
+### Frontend
+
+O frontend foi criado para demonstrar o funcionamento da API, utilizando [Angular](https://angular.io) e [Angular Material](https://material.angular.io/).
+
+<img title="Jogador recupera vida" src='./frontend.png' />
+
+### Host
+
+A solução pode ser acessada em: https://cars-users.onrender.com
 
 ## BUILD
 
@@ -27,16 +48,17 @@ Para gerar apenas o jar, com frontend e backend:
 ```
 sh build-jar.sh
 ```
-Para gerar imagem docker:
+Para gerar jar e imagem docker:
 ```
 sh build-docker.sh
 ```
 
 ### Variáveis de ambiente
-O backend e a imagem docker possuem algumas variáveis de ambiente, são elas:
+O backend possue algumas variáveis de ambiente:
 
 - **ALLOWED_ORIGINS**: origens com acesso permitido na api, separadas por virgula
 - **SERVER_PORT**: porta do servidor, padrão: 80
+- **UPLOAD_DIR**: Diretório onde as imagens serão salvas. Padrão: src/main/resources/static/img/
 
 ## MODELO DE DADOS
 
@@ -202,16 +224,18 @@ O README.md do projeto deve ser claro e mostrar tudo que precisa ser feito para 
 deploy, testes, etc.
 
 
-- [ ] **8 - Documentar Justificativa da solução**
+- [x] **8 - Documentar Justificativa da solução**
 
 O README.md do projeto deverá ter uma seção SOLUÇÃO com as justificativas e defesa técnica da solução que
 está sendo entregue.
 
-- [ ] **9 - Criar rota para upload da fotografia do usuário e do carro**
+- [x] **9 - Criar rota para upload da fotografia do usuário e do carro**
 
 - [ ] **10 - Documentação da API com Swagger**
 
 - [ ] **11 - Integrar com SonarQube**
+
+- [x] **19 - setar logoutAt em sessões expiradas (Ex: @Scheduled do Spring)** 
 ____
 **Observações:**
 

@@ -29,6 +29,8 @@ public class CarDto {
      */
     private int usageCounter;
 
+    private String imageName;
+
     public Long getId() {
         return id;
     }
@@ -75,5 +77,13 @@ public class CarDto {
 
     public void setUsageCounter(int usageCounter) {
         this.usageCounter = usageCounter;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }

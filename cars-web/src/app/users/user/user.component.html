@@ -8,10 +8,10 @@
         <span>{{user.login}}</span>
     </mat-card-content>
     <mat-card-actions class="horizontal">
-        <button mat-mini-fab color="accent" aria-label="Editar usuário" (click)="edit(user)" matTooltip="Editar">
+        <button mat-mini-fab color="accent" aria-label="Editar usuário" (click)="edit(user)" matTooltip="Editar" [disabled]="carsLoading">
             <mat-icon>edit</mat-icon>
         </button>
-        <button mat-mini-fab color="warn" aria-label="Editar usuário" (click)="delete(user)" matTooltip="Deletar">
+        <button mat-mini-fab color="warn" aria-label="Editar usuário" (click)="delete(user)" matTooltip="Deletar" [disabled]="carsLoading">
             <mat-icon>delete</mat-icon>
         </button>
     </mat-card-actions>

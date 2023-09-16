@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Serviço responsável pelas regras de autenticação
@@ -73,6 +74,14 @@ public class AuthService {
         session.setToken(this.buildJWTToken(user, session.getExpireAt()));
         this.sessionRepository.save(session);
         return session;
+    }
+
+    public List<Session> findByExpireAtLessThanAndLogoutAtIsNull(LocalDateTime date) {
+        return this.sessionRepository.findByExpireAtLessThanAndLogoutAtIsNull(date);
+    }
+
+    public void saveSessions(List<Session> sessions) {
+        this.sessionRepository.saveAll(sessions);
     }
 
     private String buildJWTToken(User user, LocalDateTime expireAt) {

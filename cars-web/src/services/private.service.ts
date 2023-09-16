@@ -75,4 +75,17 @@ export class PrivateService {
         throw err
       })
   }
+
+  uploadCarImage(carId: number, file: File) {
+    const formData = new FormData();
+    formData.append('file', file);
+    const obs: Observable<any> = this.http.post(`${this.url}/cars/${carId}/img`,
+      formData,
+      this.httpHelperService.getHttpOptions())
+    return firstValueFrom(obs)
+      .catch(err => {
+        this.httpHelperService.handleError('upload-car-image', err)
+        throw err
+      })
+  }
 }

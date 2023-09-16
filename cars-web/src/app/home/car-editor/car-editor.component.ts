@@ -48,9 +48,10 @@ export class CarEditorComponent {
           this.listener?.onCarUpdated?.(this.car)
           this.close()
           this.loading = false
+          this.errorMsg = null
         })
         .catch(response => {
-          this.errorMsg = response.error.message
+          this.errorMsg = response?.error?.message
           this.loading = false
         })
     } else { // criar
@@ -59,8 +60,9 @@ export class CarEditorComponent {
           this.listener?.onCarCreated?.(car)
           this.close()
           this.loading = false
+          this.errorMsg = null
         }).catch(response => {
-          this.errorMsg = response.error.message
+          this.errorMsg = response?.error?.message
           this.loading = false
         })
     }

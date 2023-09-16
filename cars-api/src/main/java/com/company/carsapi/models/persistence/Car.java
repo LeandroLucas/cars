@@ -41,6 +41,12 @@ public class Car {
     private int usageCounter = 0;
 
     /**
+     * Modelo do carro
+     */
+    @Column(length = DatabaseConstants.IMAGE_LENGTH)
+    private String imageName;
+
+    /**
      * Usuário dono do carro
      */
     @ManyToOne
@@ -97,5 +103,13 @@ public class Car {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }

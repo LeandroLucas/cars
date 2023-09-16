@@ -13,6 +13,7 @@ public interface DatabaseConstants {
     int MAX_PLATE_LENGTH = 20;
     int MAX_MODEL_LENGTH = 20;
     int MAX_COLOR_LENGTH = 20;
+    int IMAGE_LENGTH = 20;
 
     //Session
     int TOKEN_LENGTH = 200;

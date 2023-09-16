@@ -52,4 +52,5 @@ public class PublicController {
         this.userService.update(id, update);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
 }
