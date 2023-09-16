@@ -269,3 +269,5 @@ Requisitos:
 ```
 
 - [x] **18 - Fazer deploy**
+
+- [x] **20 - Correção de bugs para entrega**
